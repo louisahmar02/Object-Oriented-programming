@@ -20,7 +20,7 @@ class Fraction{
     int get_Denominator() const;
 
     // Displays the fraction in "numerator/denominator" format
-    void print();
+    void print() const;
 
     // Setter methods
     void set_Numerator(int);           // Sets the numerator value
