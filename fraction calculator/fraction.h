@@ -27,10 +27,26 @@ class Fraction{
     
 
     Fraction(const Fraction& rhs);
-
-    ostream operator<<(ostream& os, const Fraction& rhs) const;
-    istream operator>>(istream& is, Fraction& rhs);
-    Fraction operator=(const Fraction& rhs);
     
+    bool operator<(const Fraction& rhs) const;
+    bool operator==(const Fraction& rhs) const;
+    bool operator>(const Fraction& rhs) const;
+    bool operator!=(const Fraction& rhs) const;
+    bool operator<=(const Fraction& rhs) const;
+    bool operator>=(const Fraction& rhs) const;
+
+    Fraction& operator=(const Fraction& rhs);
+    Fraction operator+(const Fraction& rhs) const;
+    Fraction operator-(const Fraction& rhs) const;
+    Fraction operator*(const Fraction& rhs) const;
+    Fraction operator/(const Fraction& rhs) const;
+
+    Fraction& operator++();
+    Fraction operator++(int);
+    Fraction& operator--();
+    Fraction operator--(int);
+
 };
+istream& operator>>(istream& is, Fraction& rhs);
+ostream& operator<<(ostream& os, const Fraction& rhs);
 #endif
