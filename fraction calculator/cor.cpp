@@ -4,7 +4,14 @@ using namespace std;
 
 Fraction::Fraction(int num, int den){
     numerator = num;
-    denominator = den;
+    
+    if (den == 0) {
+        cout << "Error in denominator, setting it to 1." << endl;
+        denominator = 1;
+    }
+    else {
+        denominator = den;
+    }
 }
 
 Fraction::Fraction(const Fraction& rhs) {
@@ -66,11 +73,81 @@ Fraction Fraction::multiply(const Fraction& rhs) const {
 Fraction Fraction::divide(const Fraction& rhs) const {
     if (rhs.numerator == 0) {
         cout<<"Cannot divide by a fraction with a zero numerator.";
-        return -1;
+        return Fraction();
     }
 
     Fraction result;
     result.numerator = numerator * rhs.denominator;
     result.denominator = denominator * rhs.numerator;
     return result;
+}
+
+bool Fraction::operator<(const Fraction& rhs) const {
+    return numerator * rhs.denominator < denominator * rhs.numerator? true : false;
+}
+bool Fraction::operator==(const Fraction& rhs) const {
+    return numerator * rhs.denominator == denominator * rhs.numerator? true : false;
+}
+bool Fraction::operator>(const Fraction& rhs) const {
+    return !(*this <= rhs);
+}
+bool Fraction::operator!=(const Fraction& rhs) const {
+    return !(*this == rhs);
+}
+bool Fraction::operator<=(const Fraction& rhs) const {
+    return (*this < rhs) || (*this == rhs);
+}
+bool Fraction::operator>=(const Fraction& rhs) const {
+    return (*this > rhs) || (*this == rhs);
+}
+
+Fraction& Fraction::operator=(const Fraction& rhs) {
+    if (this != &rhs) {
+        numerator = rhs.numerator;
+        denominator = rhs.denominator;
+    }
+
+    return *this;
+}
+Fraction Fraction::operator+(const Fraction& rhs) const {
+    return add(rhs);
+}
+Fraction Fraction::operator-(const Fraction& rhs) const {
+    return minus(rhs);
+}
+Fraction Fraction::operator*(const Fraction& rhs) const {
+    return multiply(rhs);
+}
+Fraction Fraction::operator/(const Fraction& rhs) const {
+    return divide(rhs);
+}
+Fraction& Fraction::operator++() {
+    numerator += denominator;
+    return *this;
+}
+Fraction Fraction::operator++(int) {
+    Fraction prev_val = *this;
+    ++(*this);
+    return prev_val;
+}
+Fraction& Fraction::operator--() {
+    numerator -= denominator;
+    return *this;
+}
+Fraction Fraction::operator--(int) {
+    Fraction prev_val = *this;
+    --(*this);
+    return prev_val;
+}
+
+istream& operator>>(istream& is, Fraction& rhs) {
+    int num{}, den{};
+
+    is >> num >> den;
+       
+            rhs.set_Numerator(num);
+            rhs.set_Denominator(den);
+    
+
+    return is;
 }
