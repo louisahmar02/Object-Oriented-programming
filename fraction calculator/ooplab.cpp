@@ -9,19 +9,11 @@ int main(){
     f1.set_Denominator(5);
     f2.set_Numerator(25);
     f2.set_Denominator(7);
-    f1.print();
-    f2.print();
-
     f3.add(f2);
-    f3.print();
     f3.minus(f2);
-    f3.print();
     f3.divide(f2);
-    f3.print();
     f3.multiply(f2);
     f3.print();
-
-
 
     f2 = f1;
     f2.print();
