@@ -17,8 +17,6 @@ void Fraction::set_Numerator(int value) {
     numerator = value;
 }
 
-// Sets a new value for the denominator
-// Prevents setting denominator to zero (replaces with 1 and shows error)
 void Fraction::set_Denominator(int value) {
     if (value == 0) {
         cout << "Error: Denominator cannot be zero. Setting to 1." << endl;
