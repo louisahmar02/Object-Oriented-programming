@@ -2,17 +2,28 @@
 #include "fraction.h"
 using namespace std;
 
-// Returns the current numerator value
+Fraction::Fraction(int num, int den){
+    numerator = num;
+    denominator = den;
+}
+
+Fraction::Fraction(const Fraction& rhs) {
+    numerator = rhs.numerator;
+    denominator = rhs.denominator;
+}
+Fraction::~Fraction() {
+//Destructor..;
+}
+
+
 int Fraction::get_Numerator() const {
     return numerator;
 }
 
-// Returns the current denominator value
 int Fraction::get_Denominator() const {
     return denominator;
 }
 
-// Sets a new value for the numerator
 void Fraction::set_Numerator(int value) {
     numerator = value;
 }
@@ -27,48 +38,39 @@ void Fraction::set_Denominator(int value) {
     denominator = value;
 }
 
-// Prints the fraction in the format: numerator/denominator
-void Fraction::print() {
+void Fraction::print() const{
     cout << numerator << "/" << denominator << endl;
 }
 
-// Adds two fractions and returns the result as a new Fraction object
-// Formula: a/b + c/d = (a*d + b*c) / (b*d)
-Fraction Fraction::add(const Fraction& other) const {
+Fraction Fraction::add(const Fraction& rhs) const {
     Fraction result;
-    result.numerator = numerator * other.denominator + other.numerator * denominator;
-    result.denominator = denominator * other.denominator;
+    result.numerator = numerator * rhs.denominator + rhs.numerator * denominator;
+    result.denominator = denominator * rhs.denominator;
     return result;
 }
 
-// Subtracts the other fraction from this one
-// Formula: a/b - c/d = (a*d - b*c) / (b*d)
-Fraction Fraction::minus(const Fraction& other) const {
+Fraction Fraction::minus(const Fraction& rhs) const {
     Fraction result;
-    result.numerator = numerator * other.denominator - other.numerator * denominator;
-    result.denominator = denominator * other.denominator;
+    result.numerator = numerator * rhs.denominator - rhs.numerator * denominator;
+    result.denominator = denominator * rhs.denominator;
     return result;
 }
 
-// Multiplies two fractions
-// Formula: a/b * c/d = (a*c) / (b*d)
-Fraction Fraction::multiply(const Fraction& other) const {
+Fraction Fraction::multiply(const Fraction& rhs) const {
     Fraction result;
-    result.numerator = numerator * other.numerator;
-    result.denominator = denominator * other.denominator;
+    result.numerator = numerator * rhs.numerator;
+    result.denominator = denominator * rhs.denominator;
     return result;
 }
 
-// Divides this fraction by the other fraction
-// Formula: (a/b) / (c/d) = (a*d) / (b*c)
-// Throws an exception if the other fraction has zero numerator
-Fraction Fraction::divide(const Fraction& other) const {
-    if (other.numerator == 0) {
-        throw invalid_argument("Cannot divide by a fraction with a zero numerator.");
+Fraction Fraction::divide(const Fraction& rhs) const {
+    if (rhs.numerator == 0) {
+        cout<<"Cannot divide by a fraction with a zero numerator.";
+        return -1;
     }
 
     Fraction result;
-    result.numerator = numerator * other.denominator;
-    result.denominator = denominator * other.numerator;
+    result.numerator = numerator * rhs.denominator;
+    result.denominator = denominator * rhs.numerator;
     return result;
 }
