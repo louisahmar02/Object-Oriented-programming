@@ -1,122 +1,69 @@
-#include<iostream>
+#include <iostream>
 #include "Name.h"
 using namespace std;
-int Name::length(const char* src) const
-{
-    int len{};
-    if (src){
-        for (; src[len] != '\0'; len++);
+
+// Extra helper function: Print a separator line
+void printSeparator() {
+    cout << "----------------------------------------" << endl;
+}
+
+// Extra helper function: Display full name details
+void displayNameDetails(const Name& n) {
+    cout << "Full Name : " << n << endl;
+    cout << "First Name: " << n.getFirstName() << endl;
+    cout << "Mid Name  : " << n.getMidName() << endl;
+    cout << "Last Name : " << n.getLastName() << endl;
+}
+
+// Extra helper function: Compare two names and print result
+void compareNames(const Name& n1, const Name& n2) {
+    if (n1 == n2) {
+        cout << "Both names are equal." << endl;
+    } else {
+        cout << "Names are different." << endl;
     }
-    return len;
-}
-void Name::dynamicCopy(const char* src, char*& des)
-{
-    int len = length(src);
-    des = new char[len + 1];
-
-    for (int i = 0; i <= len; i++)
-        des[i] = src[i];
-}
-Name::Name() : Name("", '\0', ""){}
-Name::Name(const char* first, char mid, const char* last)
-{
-    dynamicCopy(first, firstName);
-    midName = mid;
-    dynamicCopy(last, lastName);
-}
-const char* Name::getFirstName() const
-{
-    return firstName;
-}
-char Name::getMidName() const
-{
-    return midName;
-}
-const char* Name::getLastName() const
-{
-    return lastName;
-}
-Name::Name(const Name& rhs)
-{
-    dynamicCopy(rhs.firstName, firstName);
-    midName = rhs.midName;
-    dynamicCopy(rhs.lastName, lastName);
-}
-Name::~Name(){
-
-    delete[] firstName;
-    delete[] lastName;
-}
-Name& Name::operator=(const Name& rhs)
-{
-    if (this != &rhs)
-    {
-        delete[] firstName;
-        delete[] lastName;
-
-        dynamicCopy(rhs.firstName, firstName);
-        midName = rhs.midName;
-        dynamicCopy(rhs.lastName, lastName);
-    }
-
-    return *this;
-}
-ostream& operator<<(ostream& os, const Name& rhs){
-    os << rhs.getFirstName() << " "<< rhs.getMidName() << " " << rhs.getLastName();
-
-    return os;
 }
 
+int main() {
+    cout << "===== Name Class Demonstration =====" << endl << endl;
 
-// void Name::setFirstName(char* first) {
-//     if (first != nullptr) {
-//         firstName = first;
-//     }
-// }
+    // Create names using different constructors
+    Name person1("Louis", 'A', "Rao");
+    Name person2("John", 'B', "Smith");
+    Name person3;                      // Default constructor
+    Name person4 = person1;            // Copy constructor
 
+    printSeparator();
+    cout << "Person 1 details:" << endl;
+    displayNameDetails(person1);
 
-// istream& operator>>(istream& is, Name& rhs){
-//     is >> rhs.getfirstName >> rhs.setMidName >> rhs.setLastName;
-// }
+    printSeparator();
+    cout << "Person 2 details:" << endl;
+    displayNameDetails(person2);
 
-istream& operator>>(istream& is, Name& rhs)
-{
-    char first[100];
-    char mid;
-    char last[100];
+    printSeparator();
+    cout << "Person 3 (default):" << endl;
+    displayNameDetails(person3);
 
-    is >> first >> mid >> last;
+    printSeparator();
+    cout << "Person 4 (copy of Person 1):" << endl;
+    displayNameDetails(person4);
 
-    rhs = Name(first, mid, last);
+    printSeparator();
+    cout << "Comparing Person 1 and Person 4:" << endl;
+    compareNames(person1, person4);
 
-    return is;
+    printSeparator();
+    cout << "Comparing Person 1 and Person 2:" << endl;
+    compareNames(person1, person2);
+
+    printSeparator();
+    cout << "Assignment operator test:" << endl;
+    person3 = person2;
+    displayNameDetails(person3);
+
+    printSeparator();
+    cout << "Program finished successfully." << endl;
+
+    return 0;
 }
-bool Name::operator==(const Name& rhs) const
-{
-    int i = 0;
-
-    while (firstName[i] != '\0' && rhs.firstName[i] != '\0')
-    {
-        if (firstName[i] != rhs.firstName[i])
-            return false;
-        i++;
-    }
-
-    if (firstName[i] != rhs.firstName[i])
-        return false;
-
-    if (midName != rhs.midName)
-        return false;
-
-    i = 0;
-
-    while (lastName[i] != '\0' && rhs.lastName[i] != '\0')
-    {
-        if (lastName[i] != rhs.lastName[i])
-            return false;
-        i++;
-    }
-
-    return lastName[i] == rhs.lastName[i];
-}
-
