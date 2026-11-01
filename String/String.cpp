@@ -67,18 +67,6 @@ ostream& operator<<(ostream& os, const Name& rhs){
     return os;
 }
 
-
-// void Name::setFirstName(char* first) {
-//     if (first != nullptr) {
-//         firstName = first;
-//     }
-// }
-
-
-// istream& operator>>(istream& is, Name& rhs){
-//     is >> rhs.getfirstName >> rhs.setMidName >> rhs.setLastName;
-// }
-
 istream& operator>>(istream& is, Name& rhs)
 {
     char first[100];
@@ -119,4 +107,3 @@ bool Name::operator==(const Name& rhs) const
 
     return lastName[i] == rhs.lastName[i];
 }
-
