@@ -1,109 +1,236 @@
+
+#include "String.h"
 #include<iostream>
-#include "Name.h"
 using namespace std;
-int Name::length(const char* src) const
+
+int String::length(const char* src) const
 {
     int len{};
-    if (src){
+
+    if (src)
+    {
         for (; src[len] != '\0'; len++);
     }
+
     return len;
 }
-void Name::dynamicCopy(const char* src, char*& des)
+void String::dynamicCopy(const char* src, char*& dest) const
 {
     int len = length(src);
-    des = new char[len + 1];
 
-    for (int i = 0; i <= len; i++)
-        des[i] = src[i];
-}
-Name::Name() : Name("", '\0', ""){}
-Name::Name(const char* first, char mid, const char* last)
-{
-    dynamicCopy(first, firstName);
-    midName = mid;
-    dynamicCopy(last, lastName);
-}
-const char* Name::getFirstName() const
-{
-    return firstName;
-}
-char Name::getMidName() const
-{
-    return midName;
-}
-const char* Name::getLastName() const
-{
-    return lastName;
-}
-Name::Name(const Name& rhs)
-{
-    dynamicCopy(rhs.firstName, firstName);
-    midName = rhs.midName;
-    dynamicCopy(rhs.lastName, lastName);
-}
-Name::~Name(){
+    dest = new char[len + 1];
 
-    delete[] firstName;
-    delete[] lastName;
+    for (int i = 0; i < len; i++)
+        dest[i] = src[i];
+
+    dest[len] = '\0';
 }
-Name& Name::operator=(const Name& rhs)
+
+String::String()
+{
+    data = new char[1];
+    data[0] = '\0';
+    len = 0;
+}
+
+// Parameterized constructor
+String::String(const char* str)
+{
+    len = length(str);
+    dynamicCopy(str, data);
+}
+
+// Copy constructor
+String::String(const String& rhs)
+{
+    len = rhs.len;
+    dynamicCopy(rhs.data, data);
+}
+
+// Destructor
+String::~String()
+{
+    delete[] data;
+}
+
+// Getter: data
+const char* String::getData() const
+{
+    return data;
+}
+
+// Getter: length
+int String::getLength() const
+{
+    return len;
+}
+
+// Setter: data
+void String::setData(const char* str)
+{
+    char* temp;
+    dynamicCopy(str, temp);
+
+    delete[] data;
+
+    data = temp;
+    len = length(str);
+}
+
+// Compares two strings
+int String::Compare(const String& rhs) const
+{
+    int i{};
+
+    while (data[i] != '\0' && rhs.data[i] != '\0')
+    {
+        if (data[i] < rhs.data[i])
+            return -1;
+
+        if (data[i] > rhs.data[i])
+            return 1;
+
+        i++;
+    }
+
+    if (data[i] == '\0' && rhs.data[i] == '\0')
+        return 0;
+
+    if (data[i] == '\0')
+        return -1;
+
+    return 1;
+}
+
+// String concatenation
+String String::stringConcat(const String& rhs) const
+{
+    return *this + rhs;
+}
+
+// Assignment operator
+String& String::operator=(const String& rhs)
 {
     if (this != &rhs)
     {
-        delete[] firstName;
-        delete[] lastName;
+        char* temp;
+        dynamicCopy(rhs.data, temp);
 
-        dynamicCopy(rhs.firstName, firstName);
-        midName = rhs.midName;
-        dynamicCopy(rhs.lastName, lastName);
+        delete[] data;
+
+        data = temp;
+        len = rhs.len;
     }
 
     return *this;
 }
-ostream& operator<<(ostream& os, const Name& rhs){
-    os << rhs.getFirstName() << " "<< rhs.getMidName() << " " << rhs.getLastName();
 
-    return os;
+// Addition operator
+String String::operator+(const String& rhs) const
+{
+    String result;
+
+    delete[] result.data;
+
+    result.len = len + rhs.len;
+    result.data = new char[result.len + 1];
+
+    int i{};
+
+    for (; i < len; i++)
+        result.data[i] = data[i];
+
+    for (int j = 0; j < rhs.len; j++, i++)
+        result.data[i] = rhs.data[j];
+
+    result.data[i] = '\0';
+
+    return result;
 }
 
-istream& operator>>(istream& is, Name& rhs)
+// Addition assignment operator
+String& String::operator+=(const String& rhs)
 {
-    char first[100];
-    char mid;
-    char last[100];
+    int newLength = len + rhs.len;
+    char* temp = new char[newLength + 1];
 
-    is >> first >> mid >> last;
+    int i{};
 
-    rhs = Name(first, mid, last);
+    for (; i < len; i++)
+        temp[i] = data[i];
+
+    for (int j = 0; j < rhs.len; j++, i++)
+        temp[i] = rhs.data[j];
+
+    temp[i] = '\0';
+
+    delete[] data;
+
+    data = temp;
+    len = newLength;
+
+    return *this;
+}
+
+// Subscript operator
+char& String::operator[](int index)
+{
+    return data[index];
+}
+
+// Equality operator
+bool String::operator==(const String& rhs) const
+{
+    return Compare(rhs) == 0;
+}
+
+// Inequality operator
+bool String::operator!=(const String& rhs) const
+{
+    return Compare(rhs) != 0;
+}
+
+// Less than operator
+bool String::operator<(const String& rhs) const
+{
+    return Compare(rhs) < 0;
+}
+
+// Greater than operator
+bool String::operator>(const String& rhs) const
+{
+    return Compare(rhs) > 0;
+}
+
+// Greater than or equal operator
+bool String::operator>=(const String& rhs) const
+{
+    return Compare(rhs) >= 0;
+}
+
+// Less than or equal operator
+bool String::operator<=(const String& rhs) const
+{
+    return Compare(rhs) <= 0;
+}
+
+// Input operator
+istream& operator>>(istream& is, String& rhs)
+{
+    char temp[1000];
+
+    is.width(1000);
+
+    if (is >> temp)
+        rhs.setData(temp);
 
     return is;
 }
-bool Name::operator==(const Name& rhs) const
+
+// Output operator
+ostream& operator<<(ostream& os, const String& rhs)
 {
-    int i = 0;
+    os << rhs.getData();
 
-    while (firstName[i] != '\0' && rhs.firstName[i] != '\0')
-    {
-        if (firstName[i] != rhs.firstName[i])
-            return false;
-        i++;
-    }
-
-    if (firstName[i] != rhs.firstName[i])
-        return false;
-
-    if (midName != rhs.midName)
-        return false;
-
-    i = 0;
-
-    while (lastName[i] != '\0' && rhs.lastName[i] != '\0')
-    {
-        if (lastName[i] != rhs.lastName[i])
-            return false;
-        i++;
-    }
-
-    return lastName[i] == rhs.lastName[i];
+    return os;
 }
