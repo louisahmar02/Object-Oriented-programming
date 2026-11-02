@@ -6,11 +6,12 @@ using namespace std;
 class String{
     private:
     char* data{};
-    int length{};
-    int stringCompare(const String& rhs) const;
-    int stringLength(const char*) const;
-    //int length(const char *str) const;
-    void dynamicCopy(const char *src, char *& dest);
+    int len{};
+    int Compare(const String& rhs) const;
+    int length(const char*) const;
+    void dynamicCopy(const char *src, char *&dest) const;
+    // int length(const char *str) const;
+    //void dynamicCopy(const char *src, char *& dest);
     public:
     String();
     ~String();
@@ -21,13 +22,13 @@ class String{
     void setData(const char*);
     // void setLength(const int);
     // void print() const;
-    String stringConcatenate(const String& rhs) const;
-    void toUpperCase();
-    void toLowerCase();
+    String stringConcat(const String& rhs) const;
+    // void toUpperCase();
+    // void toLowerCase();
     String& operator=(const String& rhs);
-    bool operator==(const String& rhs) const;
     String operator+(const String& rhs) const;
     String& operator+=(const String& rhs);
+    bool operator==(const String& rhs) const;
     char& operator[](int);
     bool operator!=(const String& rhs) const;
     bool operator<(const String& rhs) const;
