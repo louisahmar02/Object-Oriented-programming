@@ -16,6 +16,28 @@ String::String(const String& rhs){
 const char* String::getData() const{
     return data;
 }
+int String::Compare(const String& rhs)const{
+    int i{};
+    if(this && rhs.data){
+        while (data[i] != '\0' && rhs.data[i] != '\0'){
+            if (data[i] < rhs.data[i])
+            return -1;
+
+        if (data[i] > rhs.data[i])
+            return 1;
+
+        i++;
+        }
+        if(data[i] == '\0' && rhs.data[i] == '\0'){
+            return 0;
+        }
+        if(data[i]=='\0'){
+            return -1;
+        }
+
+        return 1;
+    }
+    }
 
 void String::dynamicCopy(const char* str, char*& des) const
 {
@@ -44,4 +66,8 @@ ostream& operator<<(ostream& os, const String& rhs)
     os << rhs.getData();
 
     return os;
+}
+
+bool String::operator<(const String& rhs) const{
+    return Compare(rhs)< 0? true: false;
 }
