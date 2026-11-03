@@ -86,5 +86,6 @@ String String::operator+(const String& rhs){
     }
     data = temp;
     len = new_len;
-    return *this;
+    data[len] = '\0';
+    return data;
 }
