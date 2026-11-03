@@ -5,6 +5,11 @@ using namespace std;
 String::~String(){
     delete[] data;
 }
+String::String(){
+    len = 0;
+    data = new char[1];
+    data[0] = '\0';
+}
 String::String(const char* str){
     len = length(str);
     dynamicCopy(str,data);
@@ -73,19 +78,17 @@ bool String::operator<(const String& rhs) const{
 }
 
 String String::operator+(const String& rhs){
-    int i{};
-    int new_len = len + rhs.len;
-    char* temp = new char[new_len + 1];
-    for(; i < len;++i){
-        temp[i] = data[i];
+    String result;
+    result.len = len + rhs.len;
+    int i{}, new_len{len + rhs.len};
+    result.data = new char[new_len + 1];
+    for(; i < len; ++i){
+        result.data[i] = data[i];
     }
-    int j=0;
-    for(;i< new_len; ++i){
-        temp[i] = rhs.data[j];
-        ++j;
-    }
-    data = temp;
-    len = new_len;
-    data[len] = '\0';
-    return data;
+    for(int j = 0; j < rhs.len; ++j, ++i){
+        result.data[i] = rhs.data[j];
+    } 
+    result.data[result.len] = '\0';
+
+    return result;
 }
