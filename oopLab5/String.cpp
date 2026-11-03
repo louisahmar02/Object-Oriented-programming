@@ -18,7 +18,7 @@ const char* String::getData() const{
 }
 int String::Compare(const String& rhs)const{
     int i{};
-    if(this && rhs.data){
+    // if(this && rhs.data){
         while (data[i] != '\0' && rhs.data[i] != '\0'){
             if (data[i] < rhs.data[i])
             return -1;
@@ -28,6 +28,7 @@ int String::Compare(const String& rhs)const{
 
         i++;
         }
+
         if(data[i] == '\0' && rhs.data[i] == '\0'){
             return 0;
         }
@@ -36,9 +37,8 @@ int String::Compare(const String& rhs)const{
         }
 
         return 1;
-    }
-    }
-
+    // }
+}
 void String::dynamicCopy(const char* str, char*& des) const
 {
     int slen = length(str);
@@ -70,4 +70,21 @@ ostream& operator<<(ostream& os, const String& rhs)
 
 bool String::operator<(const String& rhs) const{
     return Compare(rhs)< 0? true: false;
+}
+
+String String::operator+(const String& rhs){
+    int i{};
+    int new_len = len + rhs.len;
+    char* temp = new char[new_len + 1];
+    for(; i < len;++i){
+        temp[i] = data[i];
+    }
+    int j=0;
+    for(;i< new_len; ++i){
+        temp[i] = rhs.data[j];
+        ++j;
+    }
+    data = temp;
+    len = new_len;
+    return *this;
 }
