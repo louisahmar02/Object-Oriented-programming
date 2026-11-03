@@ -15,7 +15,7 @@ String(const String& rhs);
 ~String();
 const char* getData() const;
 bool operator<(const String& rhs)const;
-
+String operator+(const String& rhs);
 };
 
 ostream& operator<<(ostream& os, const String& rhs);
